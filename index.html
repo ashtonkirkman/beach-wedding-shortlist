@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Beach Wedding Shortlist</title>
+<meta name="description" content="Five beachfront rentals for a 16-guest destination wedding in March 2027, ranked by flight cost from Salt Lake City.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a travel brief. One regional map up top with numbered pins and flight arcs from SLC,
+   then five ranked option cards, each carrying its own mini map, the three numbers that matter,
+   pros and cons, and the two booking links. */
+:root{
+  --bg:#F3F7F6; --surface:#FFFFFF; --fg:#17323B; --muted:#5C7680; --line:#D3DFDF;
+  --accent:#0F6F7C; --accent-soft:#DCEFF0; --sun:#C08A22; --sun-soft:#F7ECD3;
+  --ocean:#DCEAEB; --land:#CBD7D1; --land-line:#B3C3BC; --arc:#0F6F7C;
+  --good:#2E7D4F; --bad:#B9483A;
+  --display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1B1F; --surface:#15262B; --fg:#E5EEEF; --muted:#94AAB0; --line:#263B41;
+    --accent:#63C4CF; --accent-soft:#15343B; --sun:#E1B35B; --sun-soft:#2E2816;
+    --ocean:#10252B; --land:#2A4048; --land-line:#3A535B; --arc:#63C4CF;
+    --good:#5FC38A; --bad:#EE8A7A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1B1F; --surface:#15262B; --fg:#E5EEEF; --muted:#94AAB0; --line:#263B41;
+  --accent:#63C4CF; --accent-soft:#15343B; --sun:#E1B35B; --sun-soft:#2E2816;
+  --ocean:#10252B; --land:#2A4048; --land-line:#3A535B; --arc:#63C4CF;
+  --good:#5FC38A; --bad:#EE8A7A; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;margin:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:32px 56px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,68px);line-height:1;margin:6px 0 14px;text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--accent)}
+.brief{display:flex;flex-wrap:wrap;gap:10px 28px;color:var(--muted);font-size:15px;max-width:70ch}
+.brief b{color:var(--fg);font-weight:600}
+.lede{max-width:66ch;font-size:17px;margin:22px 0 0}
+
+/* map */
+.map-card{margin-top:34px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.map-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 20px;padding:16px 20px 0}
+.map-head h2{font-family:var(--display);font-weight:400;font-size:28px;margin:0}
+.map-head p{margin:0;color:var(--muted);font-size:14px}
+.map-card svg{display:block;width:100%;height:auto;background:var(--ocean)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 18px;padding:14px 20px 18px;border-top:1px solid var(--line)}
+.legend div{display:flex;gap:10px;align-items:center;font-size:14px}
+.legend .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--sun);color:#1a1405;font-weight:600;font-size:13px;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+.legend .n.o{background:var(--accent);color:var(--surface)}
+.legend small{display:block;color:var(--muted);font-size:12.5px}
+.map-label{font-family:var(--body);font-size:11px;letter-spacing:.12em;text-transform:uppercase;fill:var(--muted);font-weight:600}
+.pin-num{font-family:var(--body);font-size:12px;font-weight:600;fill:#1a1405}
+.pin-num.o{fill:var(--surface)}
+.pin-tag{font-family:var(--body);font-size:12.5px;font-weight:500;fill:var(--fg)}
+.pin-tag.o{fill:var(--accent)}
+
+/* ranking */
+.rank-head{margin:48px 0 10px}
+.rank-head h2{font-family:var(--display);font-weight:400;font-size:36px;margin:0 0 6px;line-height:1.1}
+.rank-head p{margin:0;color:var(--muted);max-width:66ch}
+.options{display:grid;gap:22px;margin-top:18px}
+.opt{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px 26px}
+.opt.top{border-color:var(--sun)}
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.mini{border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.mini svg{display:block;width:100%;height:auto;background:var(--ocean)}
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.badge .n{width:28px;height:28px;border-radius:50%;background:var(--sun);color:#1a1405;font-size:14px;display:grid;place-items:center;letter-spacing:0}
+.where{font-size:13.5px;color:var(--muted);line-height:1.45}
+.where b{color:var(--fg);font-weight:500}
+.main{min-width:0;display:flex;flex-direction:column;gap:16px}
+.opt h3{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.05;margin:0;text-wrap:balance}
+.opt h3 span{display:block;font-family:var(--body);font-size:15px;color:var(--muted);margin-top:6px}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.num{background:var(--bg);border-radius:10px;padding:10px 12px;min-width:0}
+.num .l{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.num .v{font-family:var(--display);font-size:26px;line-height:1.1;margin-top:2px;font-variant-numeric:tabular-nums}
+.num .v.none{color:var(--muted)}
+.num .s{font-size:12.5px;color:var(--muted);margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:500}
+.chip.warn{background:var(--sun-soft);color:var(--sun)}
+.take{margin:0;font-size:15.5px;max-width:72ch}
+.take b{font-weight:600}
+.pc{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 22px}
+.pc h4{margin:0 0 6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.pc h4.g{color:var(--good)} .pc h4.b{color:var(--bad)}
+.pc ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:14.5px}
+.pc li{padding-left:18px;position:relative}
+.pc li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%}
+.pc .g + ul li::before{background:var(--good)} .pc .b + ul li::before{background:var(--bad)}
+.links{display:flex;flex-wrap:wrap;gap:10px;padding-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14.5px;border:1px solid var(--accent);color:var(--accent);background:transparent}
+.btn.fill{background:var(--accent);color:var(--surface)}
+.btn svg{width:16px;height:16px;flex:none}
+@media (max-width:640px){
+  .opt{grid-template-columns:1fr;padding:18px}
+  .side{flex-direction:row;flex-wrap:wrap;align-items:flex-start}
+  .side .mini{flex:0 0 150px}
+  .side .meta{flex:1 1 160px;display:flex;flex-direction:column;gap:10px}
+  .opt h3{font-size:28px}
+}
+@media (min-width:641px){ .side .meta{display:contents} }
+
+/* notes */
+.notes{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px 36px}
+.notes h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0 0 6px}
+.notes ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--muted);display:grid;gap:5px}
+.notes li b{color:var(--fg);font-weight:500}
+@media (prefers-reduced-motion: no-preference){
+  .pulse{animation:pulse 2.4s ease-out infinite;transform-origin:center;transform-box:fill-box}
+  @keyframes pulse{0%{transform:scale(.6);opacity:.7}100%{transform:scale(2.2);opacity:0}}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Destination wedding · March 2027</div>
+  <h1>Five places to say it <em>on the sand</em></h1>
+  <div class="brief">
+    <span><b>16 guests</b> in one rental</span>
+    <span><b>3 nights</b> · Tue Mar 16 to Fri Mar 19, 2027</span>
+    <span>Flights from <b>Salt Lake City</b></span>
+    <span>Beachfront or a few minutes' walk</span>
+  </div>
+  <p class="lede">Ranked flight-first from a sweep of roughly 400 Airbnb and VRBO listings and 35 airports across Mexico, Central America, the Caribbean and Hawaii. With 16 tickets to buy, the fare is the biggest line, so the order follows the realistic mid-March fare from Salt Lake City, then the rental. Every option sleeps 16 or more, rates 4.8 or better, and is on or within a couple of minutes of a beach. Hawaii's cheap fares were tested and dropped: no legal 16-person beach rental there comes in under $7,400 before tax.</p>
+
+  <section class="map-card" aria-labelledby="mapTitle">
+    <div class="map-head">
+      <h2 id="mapTitle">Where they are</h2>
+      <p>Arcs show the flight from SLC. Each card lists the nonstop and one-stop fares.</p>
+    </div>
+    <div id="mainMap"></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <div class="rank-head">
+    <h2>The shortlist, in order</h2>
+    <p>Lodging prices are the Airbnb totals shown for 16 adults on Sep 28, 2026, and usually exclude local lodging tax. Fares are per-person round-trip planning estimates for mid-March, not quotes, and exclude about $80 for a checked bag. The one-stop fare assumes a single connection with a layover under 3.5 hours.</p>
+  </div>
+  <div class="options" id="options"></div>
+
+  <section class="notes">
+    <div>
+      <h3>How the numbers were built</h3>
+      <ul>
+        <li><b>Lodging</b> is the total Airbnb displayed for 16 adults, Mar 16 to 19. Expect roughly 16 to 19 percent tax on top in Mexico and El Salvador, and 7 to 11 percent in Puerto Rico.</li>
+        <li><b>Fares</b> come from trailing-year route averages nudged up for spring break. Treat them as plus or minus 20 percent until Delta's winter schedule loads in Oct to Nov 2026. Los Cabos and Puerto Vallarta are the only routes where March is one of the cheapest months.</li>
+        <li><b>Dates</b> matter less than expected. Mar 17 to 20 priced flat to 10 percent higher across the board. Holy Week is Mar 21 to 28 and Mexican travel surges from Fri Mar 19, so return Thursday or lock Friday seats early.</li>
+        <li><b>Skipped on purpose:</b> Kona, Costa Rica, Cozumel, Punta Cana, Belize and Nicaragua all show March as their most expensive month to fly. Volaris via Guadalajara is cheapest on paper but only flies SLC on Mon, Wed and Fri.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Before booking</h3>
+      <ul>
+        <li>Message the host about a ceremony and amplified music. Only options 2 and 5 say yes in writing.</li>
+        <li>Google Flights caps a search at 9 passengers and never shows Southwest. For 16 seats on one plane, get quotes from Delta's group desk (800-532-4777, deposit required) and Alaska's (800-445-4435, no deposit, free name changes to 3 days out).</li>
+        <li>Confirm where each guest flies from. The nonstop advantage for Puerto Vallarta and Cancún only exists from SLC.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  // ---------- geography (lon, lat), coarse outlines for orientation only ----------
+  var MEXICO_CA=[[-117.1,32.5],[-114.8,32.5],[-111,31.3],[-108.2,31.3],[-106.5,31.8],[-104.5,29.6],[-103,29],[-101.4,29.8],[-99.5,27.5],[-97.4,25.9],[-97.7,24],[-97.8,22.3],[-97.3,21],[-96.4,19.5],[-95.5,18.7],[-94.5,18.2],[-92.5,18.6],[-91.5,18.8],[-90.4,19.6],[-90.4,21.0],[-89.5,21.3],[-88.2,21.5],[-86.8,21.2],[-87.4,20.3],[-87.5,19.6],[-87.8,18.5],[-88.2,17.5],[-88.3,16.3],[-88.6,15.8],[-88.2,15.7],[-86.4,15.8],[-85.9,16.0],[-84.3,15.8],[-83.2,15.0],[-83.5,13.5],[-83.7,12.0],[-83.8,10.9],[-82.9,9.6],[-82.2,9.2],[-80.9,9.0],[-79.5,9.4],[-78.4,9.5],[-77.4,8.7],[-77.9,7.3],[-78.4,7.5],[-79.5,8.9],[-80.0,7.5],[-80.4,7.2],[-80.9,7.3],[-81.0,7.8],[-81.7,8.0],[-82.9,8.3],[-83.3,8.4],[-83.7,9.0],[-84.7,9.6],[-84.9,9.9],[-85.0,10.2],[-85.7,9.9],[-85.9,10.2],[-85.9,10.6],[-85.7,11.1],[-86.0,11.3],[-86.7,12.1],[-87.4,12.9],[-87.9,13.2],[-89.3,13.5],[-90.1,13.7],[-91.7,14.0],[-92.3,14.6],[-94.0,16.1],[-95.2,16.2],[-97.0,15.7],[-98.7,16.3],[-99.9,16.8],[-101.5,17.6],[-102.2,17.95],[-103.7,18.5],[-104.9,19.5],[-105.3,20.5],[-105.3,20.7],[-105.5,21.0],[-105.3,21.5],[-105.6,22.5],[-106.4,23.2],[-107.5,24.5],[-108.5,25.5],[-109.4,26.5],[-110.7,27.8],[-111.2,28.6],[-112.4,29.6],[-113.5,31.0],[-114.7,31.8],[-114.9,31.3],[-114.3,30.0],[-113.1,28.6],[-112.2,27.5],[-111.7,26.9],[-111.0,25.8],[-110.7,24.3],[-110.0,23.5],[-109.7,23.1],[-109.9,22.9],[-110.3,23.3],[-111.2,24.3],[-112.0,25.0],[-112.3,26.0],[-113.3,27.0],[-114.2,27.6],[-114.5,28.5],[-115.7,29.6],[-116.6,31.3]];
+  var USA=[[-117.1,32.5],[-114.8,32.5],[-111,31.3],[-108.2,31.3],[-106.5,31.8],[-104.5,29.6],[-103,29],[-101.4,29.8],[-99.5,27.5],[-97.4,25.9],[-97.2,27.8],[-95.0,29.3],[-93.8,29.7],[-91.5,29.2],[-89.4,29.0],[-89.0,30.3],[-87.5,30.4],[-85.0,29.7],[-83.0,29.0],[-82.7,27.8],[-81.8,26.4],[-81.1,25.2],[-80.4,25.2],[-80.1,26.5],[-80.5,28.5],[-81.4,30.4],[-81.0,31.9],[-79.8,32.8],[-78.5,33.9],[-75.5,35.2],[-76.0,37.0],[-74.0,40.5],[-70.0,42.0],[-70.0,44.0],[-125,44.0],[-124.2,42],[-124.4,40.4],[-122.5,37.5],[-120.6,34.5],[-118.5,34],[-117.1,32.5]];
+  var CUBA=[[-84.9,21.85],[-84.0,22.6],[-82.5,23.1],[-81.0,23.1],[-79.5,22.6],[-77.8,21.9],[-76.3,21.2],[-75.5,20.7],[-74.2,20.3],[-74.8,19.9],[-76.0,19.95],[-77.7,19.85],[-77.4,20.6],[-78.5,21.1],[-80.0,21.8],[-81.5,21.9],[-82.3,21.6],[-84.0,21.6]];
+  var HISP=[[-74.4,18.6],[-73.4,19.9],[-72.0,19.7],[-70.5,19.85],[-69.8,19.4],[-69.2,19.3],[-68.4,18.6],[-68.8,18.35],[-69.9,18.4],[-71.1,17.6],[-71.7,17.9],[-72.8,18.2],[-74.2,18.3]];
+  var JAM=[[-78.35,18.4],[-77.9,18.5],[-77.0,18.4],[-76.3,18.0],[-76.9,17.85],[-77.7,17.9],[-78.2,18.2]];
+  var PR=[[-67.25,18.4],[-66.0,18.5],[-65.6,18.3],[-65.7,18.0],[-66.5,17.95],[-67.2,18.0]];
+  var SAM=[[-77.4,8.7],[-76.9,8.5],[-76.2,9.3],[-75.6,10.3],[-75.5,10.6],[-74.9,11.1],[-74.2,11.3],[-73.3,11.3],[-72.3,11.8],[-71.3,12.3],[-71.6,10.8],[-70.2,11.6],[-69.0,11.5],[-68.3,10.6],[-66.9,10.6],[-65.0,10.1],[-63.0,10.7],[-61.9,10.7],[-60.6,8.5],[-60.6,4.0],[-78.5,4.0],[-78.0,7.0],[-77.9,7.3]];
+  var LAND=[USA,MEXICO_CA,CUBA,HISP,JAM,PR,SAM];
+  var ISLETS=[[-78.0,26.6],[-77.9,24.5],[-76.3,25.1],[-75.6,24.4],[-76.6,23.6],[-70.0,12.5],[-69.0,12.2],[-61.5,15.5],[-61.0,14.0],[-72.2,21.8]];
+
+  var LON0=-125,LON1=-59,LAT0=6,LAT1=44,W=1000;
+  var YS=1.08; var H=Math.round(W*(LAT1-LAT0)/(LON1-LON0)*YS);
+  function P(ll){return [ (ll[0]-LON0)/(LON1-LON0)*W, (LAT1-ll[1])/(LAT1-LAT0)*H ];}
+  function poly(pts){return pts.map(function(p,i){var q=P(p);return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1);}).join('')+'Z';}
+
+  var SLC=[-111.98,40.79];
+  var OPTS=[
+    {n:1,key:'lajolla',name:'Villa La Jolla',sub:'Oceanfront hacienda on the calm Sea of Cortez',ll:[-109.55,23.62],place:'Buenavista, East Cape, Baja California Sur, Mexico',apt:'SJD · about 1 h 15 min drive',nonstop:true,
+     total:'$2,686',night:'$895',fare:'$600 to 680',fareS:'Delta daily, about 3 h',fare2:'$450 to 520',fare2S:'Southwest or American via Phoenix, about 6 h',
+     chips:['Beachfront, calm swimmable bay','Pool (shared with the casita next door)','Sleeps 16+ · 6 BR · 9 beds · 4 baths','4.94 · 16 reviews'],warn:['Events not stated','Mar 16 to 19 only'],
+     take:'<b>My first choice on a flight-first ranking.</b> Los Cabos is one of only two routes where March is a cheap month from Salt Lake City, the nonstop is three hours, and the Phoenix connection saves another $150 a head. The villa sits on 500 feet of private white sand on the swimmable side of Baja for under $900 a night. The catches are 9 beds and 4 baths for 16, a pool shared with a small neighboring casita, and a 75-minute drive north from the airport.',
+     pros:['Cheapest fare tier of any destination, nonstop or one-stop','Calm, warm water you can actually swim in','Private 2-acre beachfront estate, 4.94 rating','Under $900 a night for the whole property','Los Barriles restaurants 10 minutes away'],
+     cons:['Only 9 beds and 4 bathrooms for 16 guests','Pool is shared with the adjacent casita (ask to rent both)','Only the Mar 16 to 19 window is open','75-minute drive from SJD','Listing says nothing about events; ask the host'],
+     air:'https://www.airbnb.com/rooms/50330809?adults=16&check_in=2027-03-16&check_out=2027-03-19',
+     fly:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20SJD%20on%202027-03-16%20through%202027-03-19%20nonstop',
+     fly2:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20SJD%20on%202027-03-16%20through%202027-03-19'},
+    {n:2,key:'tuscania',name:'Tuscania House',sub:'Oceanfront villa with pool, weddings allowed',ll:[-89.40,13.48],place:'Playa Cangrejera, La Libertad, El Salvador',apt:'SAL · 45 to 60 min drive',nonstop:false,
+     total:'$1,800',night:'$600',fare:'None',fareS:'No nonstop from SLC',fare2:'$650 to 750',fare2S:'United via Houston, about 8 h. March examples $674 to 743',
+     chips:['Oceanfront','Private pool','Sleeps 25 · 6 BR · 18 beds · 6 baths','4.86 · 72 reviews','Weddings allowed for a fee'],warn:['Surcharge above 16 guests'],
+     take:'<b>The price outlier.</b> Oceanfront with a pool at $600 a night, 18 beds, and a host who lists weddings as an allowed extra. The Houston connection is a clean 8 hours. It ranks third because El Salvador is an unfamiliar sell for guests and the rating is the lowest of the five.',
+     pros:['Cheapest lodging by a wide margin','Weddings and celebrations allowed in writing','18 beds and room for 25','One clean connection through Houston','Under an hour from the airport, near El Tunco surf towns'],
+     cons:['Pacific surf beach; swimming is rougher','Less familiar destination for guests','No nonstop from SLC','4.86 is the lowest rating on this list','6 bathrooms for 16'],
+     air:'https://www.airbnb.com/rooms/1397106283816214549?adults=16&check_in=2027-03-16&check_out=2027-03-19',
+     fly:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20SAL%20on%202027-03-16%20through%202027-03-19'},
+    {n:3,key:'kaisa',name:'Villa Kaisa',sub:'Oceanfront villa with private pool',ll:[-105.38,20.75],place:'La Cruz de Huanacaxtle, Nayarit, Mexico',apt:'PVR · 25 to 35 min drive',nonstop:true,
+     total:'$3,663',night:'$1,221',fare:'$620 to 690',fareS:'Delta daily, about 3.5 h. March is this route\'s cheapest month',fare2:'$470 to 540',fare2S:'American via Phoenix, about 6.5 h',
+     chips:['Beachfront, calm bay','Private pool','Sleeps 26 · 9 BR · 15 beds · 8 baths','5.0 · 11 reviews'],warn:['Events not stated'],
+     take:'<b>The house I keep coming back to.</b> Puerto Vallarta is the other route where March is a cheap month from Salt Lake City, with a 3.5-hour Delta nonstop and a Phoenix connection that saves about $150 a head. Here the sand is at the door, the pool is yours alone, and 9 bedrooms let 16 people spread out on a calm, swimmable bay. It sits third only because it costs more than the two houses above it and has 11 reviews. If the host confirms a ceremony on the terrace, this is the most complete wedding house on the page.',
+     pros:['Direct beach access on a calm, swimmable bay','Private pool, not shared with a complex','9 bedrooms and 15 beds for 16 people','Cheapest fare tier: nonstop or Phoenix one-stop','Same price in both March windows','Driest March weather of every candidate'],
+     cons:['Only 11 reviews, though all five stars','Listing says nothing about events; host must approve a ceremony','No staff or chef mentioned','La Cruz is quiet; restaurants are 10 minutes away'],
+     air:'https://www.airbnb.com/rooms/1721835940720724105?adults=16&check_in=2027-03-16&check_out=2027-03-19',
+     fly:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20PVR%20on%202027-03-16%20through%202027-03-19%20nonstop',
+     fly2:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20PVR%20on%202027-03-16%20through%202027-03-19'},
+    {n:4,key:'luquillo',name:'Tropical Beach Oasis',sub:'Two beachfront villas with a shared pool',ll:[-65.72,18.38],place:'Luquillo (Playa Azul), Puerto Rico',apt:'SJU · about 45 min drive',nonstop:false,
+     total:'$3,157',night:'$1,052',fare:'None',fareS:'No nonstop from SLC',fare2:'$580 to 680',fare2S:'United via Denver or Delta via Atlanta, 9 to 10 h',
+     chips:['Beachfront','Shared pool (yours only)','Sleeps 16+ · 5 BR · 14 beds · 4.5 baths','5.0 · 20 reviews'],warn:['Events not stated','$25/car community fee'],
+     take:'<b>The no-passport option.</b> US dollars, phones work, and Luquillo Beach is at the door with a big pool between the two townhouses. The fare looked cheapest on paper, but the sub-$450 routings are 10-plus hours through Orlando, so the realistic connection through Denver lands in the same tier as Mexico with a longer day. Villa Mar in Isla Verde ($3,938, heated pool, 9 baths, 10 minutes from SJU) is the alternate.',
+     pros:['No passport or currency exchange for guests','Beachfront with a large pool','14 real beds','Luquillo food kiosks and El Yunque rainforest nearby','Same price in both March windows'],
+     cons:['One-stop flights, 9 to 10 hours each way','Only 4.5 bathrooms for 16','Two townhouses, not one house','20 reviews, just past the bar','Ceremony permission unknown'],
+     air:'https://www.airbnb.com/rooms/1318032047520604674?adults=16&check_in=2027-03-16&check_out=2027-03-19',
+     fly:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20SJU%20on%202027-03-16%20through%202027-03-19'},
+    {n:5,key:'tortugas',name:'Casa de Playa Tortugas',sub:'Staffed beach house on Isla Blanca',ll:[-86.80,21.40],place:'Isla Blanca, north of Cancún, Quintana Roo, Mexico',apt:'CUN · 45 to 60 min, last stretch unpaved',nonstop:true,
+     total:'$4,476',night:'$1,492',fare:'$650 to 780',fareS:'Delta daily, about 4.5 h. Mar 13 to 20 is US spring-break peak',fare2:'$500 to 560',fare2S:'United via Denver, 7 to 8 h',
+     chips:['Private beach','Private pool','Chef, maid and security included','Sleeps 18 · 7 BR · 7.5 baths','4.92 · 73 reviews','Weddings welcomed'],warn:['$500 damage deposit'],
+     take:'<b>The Caribbean pick.</b> Turquoise water, a private beach off the pool deck, and the only option that welcomes weddings in writing with a chef and housekeeper already in the price. It slips to fifth because Cancún is the busiest spring-break airport in the country that week, so the nonstop will price at the top of its range, and the house is the most expensive of the five.',
+     pros:['Caribbean-blue water and a private beach','Host explicitly hosts small weddings, up to 130 event guests','Chef service, daily maid and security included','73 reviews at 4.92','Cheap one-stop pool through Denver on three airlines'],
+     cons:['Nonstop will be at spring-break peak pricing','Remote: no restaurants nearby, bring groceries','Unpaved road for the final miles','Most expensive lodging of the five','Sleeps 18, so little headroom'],
+     air:'https://www.airbnb.com/rooms/6776932?adults=16&check_in=2027-03-16&check_out=2027-03-19',
+     fly:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20CUN%20on%202027-03-16%20through%202027-03-19%20nonstop',
+     fly2:'https://www.google.com/travel/flights?q=Flights%20from%20SLC%20to%20CUN%20on%202027-03-16%20through%202027-03-19'}
+  ];
+
+  function arcPath(a,b){
+    var p=P(a),q=P(b);var mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2;
+    var dx=q[0]-p[0],dy=q[1]-p[1];var len=Math.hypot(dx,dy)||1;
+    var cx=mx - dy/len*len*0.22, cy=my + dx/len*len*0.22;
+    return 'M'+p[0].toFixed(1)+' '+p[1].toFixed(1)+' Q'+cx.toFixed(1)+' '+cy.toFixed(1)+' '+q[0].toFixed(1)+' '+q[1].toFixed(1);
+  }
+  function landSVG(){
+    var s='';
+    LAND.forEach(function(pl){s+='<path d="'+poly(pl)+'" fill="var(--land)" stroke="var(--land-line)" stroke-width="1" stroke-linejoin="round"/>';});
+    ISLETS.forEach(function(ll){var q=P(ll);s+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="2.6" fill="var(--land)" stroke="var(--land-line)" stroke-width="1"/>';});
+    return s;
+  }
+  function pinSVG(ll,label,cls,r){
+    var q=P(ll);r=r||12;
+    return '<g><circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+r+'" fill="'+(cls==='o'?'var(--accent)':'var(--sun)')+'" stroke="var(--surface)" stroke-width="2.5"/>'+
+      '<text class="pin-num '+(cls||'')+'" x="'+q[0].toFixed(1)+'" y="'+(q[1]+4.5).toFixed(1)+'" text-anchor="middle">'+label+'</text></g>';
+  }
+  function tag(ll,text,dx,dy,cls,anchor){var q=P(ll);return '<text class="pin-tag '+(cls||'')+'" x="'+(q[0]+dx).toFixed(1)+'" y="'+(q[1]+dy).toFixed(1)+'" text-anchor="'+(anchor||'start')+'">'+text+'</text>';}
+  function lbl(ll,text){var q=P(ll);return '<text class="map-label" x="'+q[0].toFixed(1)+'" y="'+q[1].toFixed(1)+'" text-anchor="middle">'+text+'</text>';}
+
+  // ---------- main map ----------
+  var main='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Map of Mexico, Central America and the Caribbean with the five options pinned and flight arcs from Salt Lake City">';
+  main+=landSVG();
+  main+=lbl([-118,20],'Pacific Ocean')+lbl([-90,24.5],'Gulf of Mexico')+lbl([-75.5,15.6],'Caribbean Sea')+lbl([-102.5,25.5],'Mexico')+lbl([-100,37.5],'United States')+lbl([-73,7.2],'Colombia');
+  OPTS.forEach(function(o){
+    main+='<path d="'+arcPath(SLC,o.ll)+'" fill="none" stroke="var(--arc)" stroke-width="1.6" opacity=".75"/>';
+  });
+  var slcQ=P(SLC);
+  main+='<circle class="pulse" cx="'+slcQ[0].toFixed(1)+'" cy="'+slcQ[1].toFixed(1)+'" r="9" fill="none" stroke="var(--accent)" stroke-width="2"/>';
+  main+=pinSVG(SLC,'SLC','o',15)+tag(SLC,'Salt Lake City',20,5,'o');
+  main+=pinSVG(OPTS[0].ll,'1')+tag(OPTS[0].ll,'East Cape, Los Cabos',-18,5,'','end');
+  main+=pinSVG(OPTS[2].ll,'3')+tag(OPTS[2].ll,'La Cruz, Puerto Vallarta',-18,5,'','end');
+  main+=pinSVG(OPTS[1].ll,'2')+tag(OPTS[1].ll,'La Libertad, El Salvador',0,26,'','middle');
+  main+=pinSVG(OPTS[3].ll,'4')+tag(OPTS[3].ll,'Luquillo, Puerto Rico',0,-17,'','middle');
+  main+=pinSVG(OPTS[4].ll,'5')+tag(OPTS[4].ll,'Isla Blanca, Cancún',0,-17,'','middle');
+  main+='</svg>';
+  document.getElementById('mainMap').innerHTML=main;
+
+  var leg='<div><span class="n o">SLC</span><span>Salt Lake City<small>Where everyone departs</small></span></div>';
+  OPTS.forEach(function(o){leg+='<div><span class="n">'+o.n+'</span><span>'+o.name+'<small>'+o.place.split(',')[0]+' · '+o.apt.split(' ·')[0]+(o.nonstop?' nonstop':' one stop')+'</small></span></div>';});
+  document.getElementById('legend').innerHTML=leg;
+
+  // ---------- option cards ----------
+  var pinIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>';
+  var planeIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 16l20-8-6 14-3-6-6-3z"/></svg>';
+  var html='';
+  OPTS.forEach(function(o){
+    var mini='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Location of '+o.name+'">'+landSVG();
+    mini+='<path d="'+arcPath(SLC,o.ll)+'" fill="none" stroke="var(--arc)" stroke-width="2.2" opacity=".8"/>';
+    mini+=pinSVG(SLC,'','o',7);
+    var q=P(o.ll);
+    mini+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="34" fill="var(--sun)" opacity=".22"/>';
+    mini+=pinSVG(o.ll,String(o.n),'',19);
+    mini+='</svg>';
+    var chips=o.chips.map(function(c){return '<span class="chip">'+c+'</span>';}).join('')+o.warn.map(function(c){return '<span class="chip warn">'+c+'</span>';}).join('');
+    html+='<article class="opt'+(o.n===1?' top':'')+'" id="option-'+o.n+'">'+
+      '<div class="side"><div class="mini">'+mini+'</div><div class="meta">'+
+        '<span class="badge"><span class="n">'+o.n+'</span>'+(o.n===1?'Recommended':'Rank '+o.n)+'</span>'+
+        '<div class="where"><b>'+o.place+'</b><br>'+o.apt+'</div></div></div>'+
+      '<div class="main">'+
+        '<h3>'+o.name+'<span>'+o.sub+'</span></h3>'+
+        '<div class="nums">'+
+          '<div class="num"><div class="l">Rental, 3 nights</div><div class="v">'+o.total+'</div><div class="s">before local tax</div></div>'+
+          '<div class="num"><div class="l">Per night</div><div class="v">'+o.night+'</div><div class="s">whole property</div></div>'+
+          '<div class="num"><div class="l">Nonstop, per person</div><div class="v'+(o.fare==='None'?' none':'')+'">'+o.fare+'</div><div class="s">'+o.fareS+'</div></div>'+
+          '<div class="num"><div class="l">One stop, per person</div><div class="v">'+o.fare2+'</div><div class="s">'+o.fare2S+'</div></div>'+
+        '</div>'+
+        '<div class="chips">'+chips+'</div>'+
+        '<p class="take">'+o.take+'</p>'+
+        '<div class="pc"><div><h4 class="g">Pros</h4><ul>'+o.pros.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>'+
+        '<div><h4 class="b">Cons</h4><ul>'+o.cons.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div></div>'+
+        '<div class="links"><a class="btn fill" href="'+o.air+'" target="_blank" rel="noopener">'+pinIcon+'Open the Airbnb listing</a>'+
+        '<a class="btn" href="'+o.fly+'" target="_blank" rel="noopener">'+planeIcon+(o.fly2?'Nonstop flights':'Flights on Google Flights')+'</a>'+
+        (o.fly2?'<a class="btn" href="'+o.fly2+'" target="_blank" rel="noopener">'+planeIcon+'All flights incl. one-stop</a>':'')+'</div>'+
+      '</div></article>';
+  });
+  document.getElementById('options').innerHTML=html;
+})();
+</script>
+
+</body>
+</html>
